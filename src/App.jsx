@@ -1,12 +1,12 @@
 import './App.css'
-import StudentManager from './student'
+import Student from './student'
 
 function App() {
 
 
   return (
     <>
-      <StudentManager />
+      <Student />
     </>
   )
 }
