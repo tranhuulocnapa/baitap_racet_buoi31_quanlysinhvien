@@ -15,7 +15,8 @@ const initialState = {
             email: "nguyenvanb@gmail.com",
         }
     ],
-    editingMasv: null, // lưu mã sinh viên đang sửa
+    editingMasv: null,
+    filteredStudent: [],
 };
 
 const formstudent = createSlice({
@@ -35,11 +36,11 @@ const formstudent = createSlice({
         deleteStudent: (state, action) => {
             const masv = action.payload;
             state.student = state.student.filter(s => s.masv !== masv);
-            if (state.editingMasv === masv) state.editingMasv = null; // reset nếu đang sửa
+            if (state.editingMasv === masv) state.editingMasv = null;
         },
 
         editStudent: (state, action) => {
-            const updated = action.payload; // { masv, hoten, phone, email }
+            const updated = action.payload;
             const index = state.student.findIndex(s => s.masv === updated.masv);
             if (index !== -1) {
                 state.student[index] = { ...state.student[index], ...updated };
@@ -48,14 +49,25 @@ const formstudent = createSlice({
         },
 
         setEditingMasv: (state, action) => {
-            state.editingMasv = action.payload; // đặt mã sinh viên đang sửa
+            state.editingMasv = action.payload;
         },
 
         resetEditing: (state) => {
             state.editingMasv = null;
         },
+
+        searchStudent: (state, action) => {
+            const search = action.payload.toLowerCase();
+
+            state.filteredStudent = state.student.filter(s =>
+                s.masv.toLowerCase().includes(search) ||
+                s.hoten.toLowerCase().includes(search)
+            );
+            console.log(state.filteredStudent)
+        },
+
     },
 });
 
-export const { addstudent, deleteStudent, editStudent, setEditingMasv, resetEditing } = formstudent.actions;
+export const { addstudent, deleteStudent, editStudent, setEditingMasv, resetEditing, searchStudent } = formstudent.actions;
 export default formstudent.reducer;

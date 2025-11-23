@@ -3,7 +3,9 @@ import { deleteStudent, setEditingMasv } from "./slice";
 
 export default function Liststudtent() {
     const dispatch = useDispatch();
-    const { student } = useSelector(state => state.formstudent);
+    const { student, filteredStudent } = useSelector(state => state.formstudent);
+    const listToRender = filteredStudent.length > 0 ? filteredStudent : student;
+
 
     return (
         <div className="bg-white shadow-lg rounded-xl overflow-hidden border">
@@ -22,7 +24,7 @@ export default function Liststudtent() {
                         </tr>
                     </thead>
                     <tbody>
-                        {student.map(s => (
+                        {listToRender.map(s => (
                             <tr key={s.masv} className="border-b hover:bg-gray-50">
                                 <td className="p-3">{s.masv}</td>
                                 <td className="p-3">{s.hoten}</td>

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { addstudent, editStudent, resetEditing } from "./slice";
+import { addstudent, editStudent, resetEditing, searchStudent } from "./slice";
 
 export default function Formstudent() {
     const dispatch = useDispatch();
@@ -44,7 +44,7 @@ export default function Formstudent() {
     return (
         <div className="bg-white shadow-lg rounded-xl p-6 mb-6 border">
             <form onSubmit={formRegister.handleSubmit} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-                {/* Mã SV */}
+
                 <div className="md:col-span-1 min-h-[90px]">
                     <label className="block text-sm font-medium text-gray-700">Mã SV</label>
                     <input
@@ -53,12 +53,12 @@ export default function Formstudent() {
                         onChange={formRegister.handleChange}
                         className="mt-1 block w-full rounded-md border px-3 py-2"
                         placeholder="VD: 01"
-                        disabled={editingMasv ? true : false} // khi sửa không đổi masv
+                        disabled={editingMasv ? true : false}
                     />
                     <p className="text-sm text-rose-600 h-5 mt-1">{formRegister.touched.masv && formRegister.errors.masv}</p>
                 </div>
 
-                {/* Họ tên */}
+
                 <div className="md:col-span-1 min-h-[90px]">
                     <label className="block text-sm font-medium text-gray-700">Họ tên</label>
                     <input
@@ -71,7 +71,7 @@ export default function Formstudent() {
                     <p className="text-sm text-rose-600 h-5 mt-1">{formRegister.touched.hoten && formRegister.errors.hoten}</p>
                 </div>
 
-                {/* Phone */}
+
                 <div className="md:col-span-1 min-h-[90px]">
                     <label className="block text-sm font-medium text-gray-700">Số điện thoại</label>
                     <input
@@ -84,7 +84,6 @@ export default function Formstudent() {
                     <p className="text-sm text-rose-600 h-5 mt-1">{formRegister.touched.phone && formRegister.errors.phone}</p>
                 </div>
 
-                {/* Email */}
                 <div className="md:col-span-1 min-h-[90px]">
                     <label className="block text-sm font-medium text-gray-700">Email</label>
                     <input
@@ -97,15 +96,35 @@ export default function Formstudent() {
                     <p className="text-sm text-rose-600 h-5 mt-1">{formRegister.touched.email && formRegister.errors.email}</p>
                 </div>
 
-                {/* Buttons */}
-                <div className="md:col-span-4 flex gap-2 mt-2">
-                    <button type="submit" className="bg-indigo-600 text-white px-4 py-2 rounded">
-                        {editingMasv ? "Cập nhật" : "Lưu"}
-                    </button>
-                    <button type="button" onClick={() => dispatch(resetEditing())} className="bg-gray-200 px-4 py-2 rounded">
-                        Reset
-                    </button>
+
+                <div className="md:col-span-4 flex flex-col md:flex-row items-center gap-3 mt-4">
+
+                    <div className="flex gap-2 w-full md:w-auto">
+                        <button
+                            type="submit"
+                            className="bg-indigo-600 text-white px-5 py-2 rounded-lg shadow hover:bg-indigo-700 transition"
+                        >
+                            {editingMasv ? "Cập nhật" : "Lưu"}
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={() => dispatch(resetEditing())}
+                            className="bg-gray-200 px-5 py-2 rounded-lg shadow hover:bg-gray-300 transition"
+                        >
+                            Reset
+                        </button>
+                    </div>
+
+                    <input
+                        type="text"
+                        placeholder="Tìm theo mã SV hoặc họ tên..."
+                        className="border px-4 py-2.5 rounded-lg w-full md:flex-1 shadow-sm focus:ring-2 focus:ring-indigo-400 outline-none transition"
+                        onChange={(e) => dispatch(searchStudent(e.target.value))}
+                    />
+
                 </div>
+
             </form>
         </div>
     )
